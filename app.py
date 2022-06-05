@@ -3,10 +3,10 @@ import yfinance as yf
 import altair as alt
 import streamlit as st
 
-st.title('米国株価可視化アプリ')
+st.title('日本企業株価可視化アプリ')
 
 st.sidebar.write("""
-# GAFA株価
+# 日本企業株価
 こちらは株価可視化ツールです。以下のオプションから表示日数を指定してください。
 """)
 
@@ -17,7 +17,7 @@ st.sidebar.write("""
 days = st.sidebar.slider('日数', 1, 50, 20)
 
 st.write(f"""
-### 過去 **{days}日間**のGAFA株価
+### 過去 **{days}日間**の株価
 """)
 
 
@@ -43,16 +43,22 @@ try:
 
     ymin, ymax = st.sidebar.slider(
         '範囲を指定してください。',
-        0.0, 3500.0, (0.0, 3500.0)
+        0.0, 10000.0, (0.0, 15000.0)
     )
 
     tickers = {
-        'apple': 'AAPL',
-        'facebook': 'FB',
-        'google': 'GOOGL',
-        'microsoft': 'MSFT',
-        'netflix': 'NFLX',
-        'amazon': 'AMZN'
+        'トヨタ': '7203.T',
+        'ZOZO': '3092.T',
+        'sony': '6758.T',
+        '東日本旅客鉄道': '9020.T',
+        '三越伊勢丹ホールディングス': '3099.T',
+        'パナソニック　ホールディングス': '6752.T',
+        '日清食品ホールディングス': '2897.T',
+        'ミクシィ': '2121.T',
+        'KADOKAWA': '9468.T',
+        '任天堂': '7974.T',
+        'サントリー食品インターナショナル': '2587.T',
+        'キャノン': '7751.T'
     }
 
     df = get_data(days, tickers)
@@ -60,14 +66,14 @@ try:
     companies = st.multiselect(
         '会社名を選択してください。',
         list(df.index),
-        ['google', 'amazon', 'facebook', 'apple']
+        ['トヨタ']
     )
 
     if not companies:
         st.error('少なくとも1社は選んでください。')
     else:
         data = df.loc[companies]
-        st.write("### 株価 (USD)", data.sort_index())
+        st.write("### 株価 (JPY)", data.sort_index())
         data = data.T.reset_index()
         data = pd.melt(data, id_vars=['Date']).rename(
             columns={'value': 'Stock Prices(USD)'}
