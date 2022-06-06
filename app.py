@@ -2,8 +2,10 @@ import pandas as pd
 import yfinance as yf
 import altair as alt
 import streamlit as st
+import datetime
 
 st.title('日本企業株価可視化アプリ')
+st.write(datetime.date.today())
 
 st.sidebar.write("""
 # 日本企業株価
@@ -41,10 +43,8 @@ try:
     ## 株価の範囲指定
     """)
 
-    ymin, ymax = st.sidebar.slider(
-        '範囲を指定してください。',
-        0.0, 10000.0, (0.0, 15000.0)
-    )
+    ymin = st.sidebar.number_input('最小値：', 0.0, 14999.9, 0.0)
+    ymax = st.sidebar.number_input('最大値：', 0.0, 15000.0, 15000.0)
 
     tickers = {
         'トヨタ': '7203.T',
@@ -58,7 +58,8 @@ try:
         'KADOKAWA': '9468.T',
         '任天堂': '7974.T',
         'サントリー食品インターナショナル': '2587.T',
-        'キャノン': '7751.T'
+        'キャノン': '7751.T',
+        '楽天': '4755.T'
     }
 
     df = get_data(days, tickers)
