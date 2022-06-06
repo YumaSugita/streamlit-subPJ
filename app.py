@@ -44,7 +44,7 @@ try:
     """)
 
     ymin = st.sidebar.number_input('最小値：', 0.0, 14999.9, 0.0)
-    ymax = st.sidebar.number_input('最大値：', 0.0, 15000.0, 15000.0)
+    ymax = st.sidebar.number_input('最大値：', 0.0, 100000.0, 15000.0)
 
     tickers = {
         'トヨタ': '7203.T',
